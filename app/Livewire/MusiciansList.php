@@ -40,13 +40,13 @@ class MusiciansList extends Component
     }
 
 
-    // #[On('update-list')]
-    // public function updateList() {
-    //     $this->isFull = $this->checkIsFull();
+    #[On('update-list')]
+    public function updateList() {
+        $this->isFull = $this->checkIsFull();
 
-    //     $this->instruments = Instrument::with('musician')->get();
+        $this->instruments = Instrument::with('musician')->get();
 
-    // }
+    }
 
 
     //------------------------ TODO: DELETE THIS, KEEP THE ONE BELOW! ---------------------------
