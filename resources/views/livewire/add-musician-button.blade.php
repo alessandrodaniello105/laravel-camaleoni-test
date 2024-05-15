@@ -1,0 +1,1 @@
+<button class="btn btn-light add-btn {{($isPicked)? 'disabled' : ''}}" id="new-add-{{$instrumentName}}">&rightarrow;</button>
