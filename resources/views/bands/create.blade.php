@@ -10,6 +10,13 @@
 </div>
 
 @endif
+
+{{-- TODO: LET THIS WORK! see BandController.store --}}
+@if (!empty($failure))
+<div class="alert alert-warning" role="alert">
+    {{$failure}}
+</div>
+@endif
 {{-- MUSICIANS SELECTORS --}}
 <div class="container-ctm musician-selectors">
     <div class="container-fluid">
@@ -26,9 +33,9 @@
             {{-- // OPEN MANUAL BAND MODAL BUTTON --}}
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Launch demo modal
-            </button>
+            </button> --}}
             {{-- TODO: continue manual band into modal --}}
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -71,7 +78,7 @@
 
                 @foreach ($instruments as $instrument)
 
-                <livewire:musicians-list :instrument='$instrument' />
+                <livewire:musicians-list live :key="$instrument->id" :instrument='$instrument' />
                 @endforeach
 
             </div>
@@ -90,18 +97,26 @@
                         <div class="card py-2">
 
                             {{-- MANUAL SELECT MUSICIANS (CREATE BAND) COMPONENT --}}
-                            <livewire:manual-band-session-list wire:model="selectedMusicians" />
+                            <livewire:manual-band-session-list live  :musicians="$allMusicians" />
 
                         </div>
 
                         @php
                             $counter = 6;
-                            // $counter = $counter - count($pickedInstruments);
+                            $counter = $counter - count($pickedInstruments);
                         @endphp
-
+{{$counter}}
                     </div>
-
                 </form>
+                {{-- <button
+                    type="submit"
+                    form="test-form"
+                    class="btn btn-dark {{ ($isConfirmedManualBand)? 'disabled' : '' }}">
+                    SEND
+                </button> --}}
+
+
+                <livewire:send-manual-band-form />
 
             </div>
             {{-- //RIGHT COLUMN --}}
