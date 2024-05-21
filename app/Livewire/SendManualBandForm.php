@@ -14,9 +14,9 @@ class SendManualBandForm extends Component
     public $isMinMusiciansSelected;
     public Bool $isDisabled;
 
+    public $formName;
     public function mount() {
         $this->updateProperties();
-
     }
     public function render()
     {
@@ -25,6 +25,7 @@ class SendManualBandForm extends Component
         } else {
             $this->isDisabled = true;
         }
+
         $this->updateProperties();
         return view('livewire.send-manual-band-form');
     }
@@ -58,7 +59,9 @@ class SendManualBandForm extends Component
         if (!$this->isDrumsSelected || !$this->isMinMusiciansSelected) $this->isDisabled = true;
         else $this->isDisabled = false;
 
-
+        if ($this->formName == "randomizer-form") {
+            $this->isDisabled = false;
+        }
         // @dump($pickedInstruments);
         // @dump($this->isMinMusiciansSelected);
         // @dump($this->isDrumsSelected);
