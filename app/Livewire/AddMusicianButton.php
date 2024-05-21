@@ -14,7 +14,10 @@ class AddMusicianButton extends Component
     public $isPicked;
 
 
+    public function mount() {
+        $this->isPicked = $this->isInstrumentInList($this->instrumentName);
 
+    }
     public function render()
     {
 
