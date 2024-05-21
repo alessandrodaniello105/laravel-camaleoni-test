@@ -2,4 +2,4 @@
     'name'
 ])
 
-<input wire:model.fill="{{$name}}" type="text" name="{{$name}}" id="{{$name}}" {{$attributes}}>
+<input wire:model.fill.live="{{$name}}" type="text" name="{{$name}}" id="{{$name}}" {{$attributes}}>
