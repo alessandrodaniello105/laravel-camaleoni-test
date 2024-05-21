@@ -24,20 +24,34 @@
 
     let manualBandForm = document.getElementById('test-form');
 
-    function send() {
+    let manualBandSelect = document.getElementById('manual-band-select');
 
-        for(element of manualBandForm){
-            // console.log(element)
-            if (element.classList == "form-select") {
-                for(listItem of element) {
-                    console.log(listItem.value);
-                }
-            }
+    let classList = addButtons[0].classList;
+
+    for (className of classList) {
+        if (className === 'disabled') {
+            console.log('instrument picked')
+        } else {
+            console.log('instrument not picked')
         }
+    };
 
-        // console.log(manualBandForm)
+    let testJson;
+
+    if ( {{ count($pickedInstruments) }} > 1 ) {
+        console.log('maggiore di 1')
+        // testJson = {{in_array('Drums',$pickedInstruments)}};
     }
 
+    // for (element of ) {
+    //     console.log(element)
+    // }
+
+    // let howManyMusiciansAreInThere = cache.keys().then((keys) => {
+    //                                     keys.forEach((request, index, array) => {
+    //                                     console.log(request);
+    //                                     });
+    //                                 });
 
     // let manualBandList             = document.getElementById('manual-band-select');
 
