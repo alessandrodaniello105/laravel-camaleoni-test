@@ -23,30 +23,98 @@ label[myref="form-label"] {
     left: 10px;
 }
 
+nav {
+    z-index: 100;
+}
+
+main {
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+}
+
+aside {
+    display: inline-block;
+    width: 300px;
+}
+
 .container-ctm {
-    max-width: 90%;
-    margin: auto;
+    // width: calc(90% - 300px);
+    height: 100%;
+    overflow-y: auto;
+    .container-fluid {
 
-    .musicians-list-container {
-        position: relative;
-        .no-musician-alert {
-            position: absolute;
+        .row {
+            height: 100%;
 
-            height: 20px;
+            .open-modal-button-container {
+                z-index: 99;
+                position: relative;
+
+                .open-modal {
+                    bottom: 10px;
+                    right: 10px;
+                    box-shadow: 0px 3px 8px 1px #676767bb;
+                    position: fixed;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0;
+                    width: 50px;
+                    height: 50px;
+                    font-size: 1.5rem;
+                    color: #f1f1f1;
+                    // background-color: #004f07;
+                    background: rgb(2,0,36);
+                    background: linear-gradient(326deg, rgba(2,0,36,1) 0%, rgba(9,121,34,1) 50%, rgba(0,212,255,1) 100%);
+                    border-radius: 50%;
+
+                    &::before {
+                        content: '\00002B';
+                        position: absolute;
+                        top: 5px;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .musicians-list-container {
+                position: relative;
+
+                .no-musician-alert { //this is not used
+                    position: absolute;
+                    height: 20px;
+                }
+
+
+
+            }
         }
+
 
     }
 
-    .musicians-list-card {
-        min-width: 250px;
 
-        .title-row {
-            margin-left: 0;
-            margin-right: 0;
-        }
-    }
 
 }
+
+.musicians-list-card {
+    min-width: 250px;
+    .musicians-list-element {
+        box-shadow: 0 0 10px 1px #d6d6d68a;
+    }
+    .title-row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+
+
 
 .btn[class$="-btn"] {
     display: block;
@@ -58,40 +126,7 @@ label[myref="form-label"] {
     font-style: italic;
 }
 
-.container-fluid {
 
-    .button-container {
-        z-index: 99;
-        position: relative;
-
-        .open-modal {
-            bottom: 10px;
-            right: 10px;
-            box-shadow: 0px 3px 8px 1px #676767bb;
-            position: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-            width: 50px;
-            height: 50px;
-            font-size: 1.5rem;
-            color: #f1f1f1;
-            // background-color: #004f07;
-            background: rgb(2,0,36);
-            background: linear-gradient(326deg, rgba(2,0,36,1) 0%, rgba(9,121,34,1) 50%, rgba(0,212,255,1) 100%);
-            border-radius: 50%;
-            &::before {
-                content: '\00002B';
-                position: absolute;
-                top: 5px;
-            }
-            &:hover {
-                cursor: pointer;
-            }
-        }
-    }
-}
 
 .giovane {
     cursor: crosshair !important;
@@ -99,4 +134,3 @@ label[myref="form-label"] {
         pointer-events: none;
     }
 }
-
