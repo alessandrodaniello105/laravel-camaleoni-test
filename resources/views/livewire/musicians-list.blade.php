@@ -15,16 +15,14 @@
 
             {{-- BUTTONS COL --}}
             <div class="col-4 ">
-                <p>
+                {{-- <p>
                     actions:
-                </p>
-                <div class="buttons-container flex flex-wrap justify-content-start p-2">
+                </p> --}}
+                <div class="buttons-container d-flex flex-column  justify-content-start  my-3">
 
                     <div
                     class="btn btn-warning deselect-btn"
-                    id="deselect-musician-{{$instrument->name}}">
-                    X
-                    </div>
+                    id="deselect-musician-{{$instrument->name}}">X</div>
 
                     {{-- (OLD) ADD MUSICIAN TO MANUAL BAND BUTTON --}}
                     {{-- <button
@@ -36,6 +34,7 @@
 
                     {{-- ADD MUSICIAN BUTTON LIVEWIRE COMPONENT --}}
                     <livewire:add-musician-button wire:click="$refresh"  :instrumentName="$instrument->name"  />
+
                     {{-- <x-add-musician-button id="test-add-{{$instrument->name}}"  /> --}}
 
                     {{-- <button
