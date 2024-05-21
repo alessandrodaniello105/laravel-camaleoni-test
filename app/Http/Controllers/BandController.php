@@ -20,10 +20,14 @@ class BandController extends Controller
      */
     public function index()
     {
-        $allBands = Band::with('musicians')->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()])->get();
+        $allBands = Band::with('musicians')->whereBetween('created_at', [now()->startOfDay(), now()->endOfDay()])
+
+                                ->orderByDesc('id')
+                                ->get();
+
         $howManyMusicians = 3;
 
-        // @dump(now()->endOfDay());
+
         // RANDOMIZE MUSICIANS IN EXISTING BAND
         // $bandId = 3;
         // try {
@@ -69,7 +73,12 @@ class BandController extends Controller
     public function store(Request $request)
     {
         $form_data_response = $request->all();
-        @dd($form_data_response);
+
+        if (!$form_data_response['musiciansIds']) {
+            // TODO: make 'failure' message visible in blade
+            return redirect()->route('bands.create')->with('failure', 'nessun musicista estratto');
+        }
+
         $faker = Faker::create();
 
         $newBand = Band::create();
@@ -80,18 +89,20 @@ class BandController extends Controller
         else $newBand->name = $faker->words(4, true);
 
 
+        $musiciansIdsArray = explode(',', $form_data_response['musiciansIds']);
+
 
         // we retrieve musicians' ID from the form
-        foreach($form_data_response as $key => $value) {
-            // we want to exclude the csrf token
-            if($key != "_token" && $key != "bandName") {
-                $musician = Musician::where('id', $value)->first();
-                // @dump($musician);
+        foreach($musiciansIdsArray as $musicianId) {
 
-                $musician->has_played = 1;
-                $musician->update(['has_played']);
-                $newBand->musicians()->attach($musician);
-            }
+
+            $musician = Musician::where('id', $musicianId)->first();
+            // @dump($musician);
+
+            $musician->has_played = 1;
+            $musician->update(['has_played']);
+            $newBand->musicians()->attach($musician);
+
         }
 
         $newBand->save();
