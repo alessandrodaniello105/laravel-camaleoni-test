@@ -22,7 +22,14 @@
 <ul>
     @foreach ($allBands as $band)
     <li>
-        <h4>Nome Gruppo: {{$band->name}}</h4>
+        <h4>
+            Nome Gruppo: {{$band->name}} | <form
+          id="delete-band-form"
+          action="{{route('bands.destroy', $band)}}"
+          method="POST">
+          @csrf @method('DELETE')<button type="submit" class="btn btn-warning">DEL</button></form>
+        </h4>
+
         <ul> Musicisti:
             @foreach ($band->musicians as $musician)
             <li>
