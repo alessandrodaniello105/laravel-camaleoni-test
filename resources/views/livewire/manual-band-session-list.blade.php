@@ -22,23 +22,23 @@
         <p>Posti disponibili: {{$counter = $counter - count($selectedMusicians)}}</p>
 
         {{-- INSTRUMENT ICON --}}
-        <div class="offset-4 col-4">
+        {{-- <div class="offset-4 col-4">
             <div class="inst-icon mb-2">
-                {{-- <img
+                <img
                   class="img-fluid img-thumbnail"
                   src="/assets/instruments-png/{{$instrument->icon}}"
                   alt="{{$instrument->icon}} - instrument image filename"
-                > --}}
+                >
             </div>
-        </div>
+        </div> --}}
         {{-- //INSTRUMENT ICON --}}
 
         {{-- BUTTONS COL --}}
-        <div class="col-4 ">
+        <div class="col-4">
             <p>
                 actions:
             </p>
-            <div class="buttons-container flex flex-wrap justify-content-start p-2">
+            <div class="buttons-container d-flex justify-content-start gap-3 p-2">
 
                 {{-- DESELECT SELECTED MUSICIAN --}}
                 <div
@@ -69,7 +69,7 @@
         </div>
         {{-- //BUTTONS COL --}}
     </div>
-    <h2>Musicisti Selezionati</h2>
+    {{-- <h2>Musicisti Selezionati</h2> --}}
 
 
     <div class="col px-2">
