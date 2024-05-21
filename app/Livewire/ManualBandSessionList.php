@@ -24,21 +24,22 @@ class ManualBandSessionList extends Component
     public ManualBandForm $form;
 
     public $musicians;
+    public Bool $isConfirmed = false;
 
     public function mount() {
         $this->selectedMusicians = Cache::get('selected_musicians', []);
         $this->pickedInstruments = Cache::get('picked_instruments', []);
-        $this->musicians = Musician::class;
+        // $this->musicians = Musician::class;
+        // @dump($this->selectedMusicians);
+        // @dump($this->pickedInstruments);
     }
-
-
 
 
     public function save() {
         // $formData = $this->form->all();
         $this->form->store();
-        // return $this->route('bands.store', compact($formData));
     }
+
 
     public function send() {
         // @dump('wire:click="send"');
@@ -50,7 +51,7 @@ class ManualBandSessionList extends Component
         $selectedMusician = Musician::where('id', $musicianId)->first();
 
         // finally we push the instrument in the array of picked instruments
-        $selectedMusicianInstrument = $selectedMusician->instrument->name;
+        $selectedMusicianInstrument      = $selectedMusician->instrument->name;
         if (!in_array($musicianId, $this->selectedMusicians)) {
 
             $this->selectedMusicians[]   = $musicianId;
@@ -63,11 +64,11 @@ class ManualBandSessionList extends Component
 
             Cache::put('selected_musicians', $this->selectedMusicians);
             Cache::put('picked_instruments', $this->pickedInstruments);
-            $this->dispatch('update-list');
+            // $this->dispatch('update-list');
 
         } else {
 
-            $this->selectedMusicians = array_diff($this->selectedMusicians, [$musicianId]);
+            $this->selectedMusicians     = array_diff($this->selectedMusicians, [$musicianId]);
             $selectedMusician->is_picked = 0;
             $selectedMusician->save();
 
@@ -89,15 +90,15 @@ class ManualBandSessionList extends Component
 
         if (in_array($musicianId, $this->selectedMusicians)) {
 
-            $this->selectedMusicians = array_diff($this->selectedMusicians, [$musicianId]);
-            $this->pickedInstruments = array_diff($this->pickedInstruments, [$selectedMusicianInstrument]);
+            $this->selectedMusicians     = array_diff($this->selectedMusicians, [$musicianId]);
+            $this->pickedInstruments     = array_diff($this->pickedInstruments, [$selectedMusicianInstrument]);
 
             $selectedMusician->is_picked = 0;
             $selectedMusician->save();
 
             Cache::put('selected_musicians', $this->selectedMusicians);
             Cache::put('picked_instruments', $this->pickedInstruments);
-            $this->dispatch('update-list');
+            // $this->dispatch('update-list');
             $this->dispatch('reactivate-button', $selectedMusicianInstrument);
 
         } else {
@@ -109,9 +110,14 @@ class ManualBandSessionList extends Component
     public function resetManualBandList() {
         foreach($this->selectedMusicians as $musicianId) {
             $musician = Musician::where('id', $musicianId)->first();
+
+            $selectedMusicianInstrument = $musician->instrument->name;
+
             $musician->is_picked = 0;
             $this->selectedMusicians = array_diff($this->selectedMusicians, [$musicianId]);
+            $this->dispatch('reactivate-button', $selectedMusicianInstrument);
             $musician->save();
+
         }
         Cache::forget('selected_musicians');
         Cache::forget('picked_instruments');
