@@ -17,8 +17,8 @@
 
         @php
             $counter = 6;
-
         @endphp
+
         <p>Posti disponibili: {{$counter = $counter - count($selectedMusicians)}}</p>
 
         {{-- INSTRUMENT ICON --}}
@@ -50,6 +50,7 @@
                 {{-- DELETE SELECTED MUSICIAN FROM MANUAL BAND LIST --}}
                 <button
                     type="button"
+                    wire:click="$dispatch('update-list')"
                     class="btn btn-light delete-btn {{($counter == 6)? 'disabled' : ''}}"
                     id="manual-band-delete-musician">
                     &leftarrow;
@@ -73,12 +74,12 @@
 
     <div class="col px-2">
 
-        <form id="form-manual-band" wire:submit="save"  method="POST">
-            @csrf
+        {{-- <form id="form-manual-band" wire:submit="save"  method="POST">
+            @csrf --}}
 
             <select
             class="form-select"
-            name="manual_band_session"
+            .name="manual_band_session[]"
             id="manual-band-select"
             multiple
             size="5">
@@ -88,16 +89,16 @@
 
                     @php
                     // Writing this is the same as...
-                    // $musician = App\Models\Musician::find($musicianId);
+                    $musician = App\Models\Musician::find($musicianId);
 
                     // ...writing this
-                    $musician = $musicians::find($musicianId);
+                    // $musician = array_filter($musicians, $musicianId);
                     @endphp
 
                     <option
                         wire:key="{{ $musician->id }}"
                         value="{{ $musician->id }}"
-                        {{ ($musician === 18)? 'selected' : '' }}>
+                        {{($isConfirmed)? 'selected' : ''}}>
 
                         {{-- {{ $musician->name . ' ' . $musician->surname }} --}}
 
@@ -110,28 +111,31 @@
                 @endif
 
             </select>
+
+            {{-- <div wire:click="switchState" class="confirm-box">
+                <label  for="manual-band-confirm">sure?</label>
+                <input  id="manual-band-confirm" type="checkbox">
+            </div> --}}
+
             <label for="manual-band-name-input">name band</label>
             <x-input-text name="bandName" />
             {{-- <input
               type="text"
-              name="bandName"
+              wire:model.fill.live="form.musiciansIds[]"
               id="manual-band-name-input"
               placeholder="Cartonio's Quartet..."
 
               class=" form-control my-2 "> --}}
 
-            <x-input-text value="hey" name="musiciansIds" value="{{join(',',$selectedMusicians)}}" />
-
-            <button
+            <x-input-text hidden name="musiciansIds" value="{{join(',', $selectedMusicians)}}" />
+            {{-- <button
                 type="submit"
-                for="form-manual-band"
-                class="btn btn-dark
-
-                ">
+                for="test-form"
+                class="btn btn-dark">
                 SEND
-            </button>
+            </button> --}}
 
-        </form>
+        {{-- </form> --}}
     </div>
 
 
@@ -152,6 +156,8 @@
 @script
 <script>
 
+    let isConfirmedJs = 'true';
+
     if ($wire.pickedInstrument.length > 0) {
         let pickedInstruments = $wire.pickedInstruments;
         console.log(pickedInstruments)
@@ -163,6 +169,7 @@
 
     let manualMusicianDeleteButton = document.getElementById('manual-band-delete-musician');
     let selectedMusicianId;
+
 
 
     manualMusicianDeleteButton.addEventListener('click', function() {
