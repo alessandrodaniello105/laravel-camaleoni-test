@@ -2,32 +2,35 @@
 
 @section('content')
 
-<h1>Crea una band-session</h1>
-@if (!empty($_SESSION['exceptionMessage']))
-
-<div class="alert alert-warning" role="alert">
-    {{$_SESSION['exceptionMessage']}}
-</div>
-
-@endif
-
-{{-- TODO: LET THIS WORK! see BandController.store --}}
-@if (!empty($failure))
-<div class="alert alert-warning" role="alert">
-    {{$failure}}
-</div>
-@endif
 {{-- MUSICIANS SELECTORS --}}
 <div class="container-ctm musician-selectors">
+
+    <h2>Crea una band-session</h2>
+
+    @if (!empty($_SESSION['exceptionMessage']))
+
+    <div class="alert alert-warning" role="alert">
+        {{$_SESSION['exceptionMessage']}}
+    </div>
+
+    @endif
+
+    {{-- TODO: LET THIS WORK! see BandController.store --}}
+    @if (!empty($failure))
+    <div class="alert alert-warning" role="alert">
+        {{$failure}}
+    </div>
+    @endif
+
     <div class="container-fluid">
         {{-- <div class="row">
             <livewire:manual-band-session-list />
 
         </div> --}}
-        <div class="row">
+        <div class="row justify-content-center ">
 
             {{-- OPEN MANUAL BAND MODAL BUTTON --}}
-            <div class="button-container d-md-none ">
+            <div class="open-modal-button-container d-md-none ">
                 <div class="open-modal" id="open-manual-band-modal" data-bs-toggle="modal" data-bs-target="#exampleModal"></div>
             </div>
             {{-- // OPEN MANUAL BAND MODAL BUTTON --}}
@@ -71,10 +74,8 @@
 
 
 
-
-
             {{-- LEFT COLUMN --}}
-            <div class="col col-md-8 d-flex flex-wrap justify-content-center musicians-list-container">
+            <div class="col .col-md-8 d-flex flex-wrap justify-content-center musicians-list-container">
 
                 @foreach ($instruments as $instrument)
 
@@ -84,51 +85,54 @@
             </div>
             {{-- //LEFT COLUMN --}}
 
+
             {{-- RIGHT COLUMN --}}
-            <div class="d-none d-md-inline-block col-4 text-center">
-                {{-- <p>
-                    seconda colonna a destra
-                </p> --}}
 
-                <form id="test-form" action="{{route('bands.store')}}" method="POST">
-                    @csrf
-                    <div class="col-12 col-md-3 d-inline-block m-3 musicians-list-card">
-
-                        <div class="card py-2">
-
-                            {{-- MANUAL SELECT MUSICIANS (CREATE BAND) COMPONENT --}}
-                            <livewire:manual-band-session-list live  :musicians="$allMusicians" />
-
-                        </div>
-
-                        @php
-                            $counter = 6;
-                            $counter = $counter - count($pickedInstruments);
-                        @endphp
-{{$counter}}
-                    </div>
-                </form>
-                {{-- <button
-                    type="submit"
-                    form="test-form"
-                    class="btn btn-dark {{ ($isConfirmedManualBand)? 'disabled' : '' }}">
-                    SEND
-                </button> --}}
-
-
-                <livewire:send-manual-band-form />
-
-            </div>
             {{-- //RIGHT COLUMN --}}
-
         </div>
 
     </div>
 
+
 </div>
 {{-- //MUSICIANS SELECTORS --}}
+
+
+
 @livewireScripts
 @endsection
+
+@section('sidebar')
+<aside class=".col-4 d-none d-md-inline-block text-center align-self-center manual-band-list-container">
+    {{-- <p>
+        seconda colonna a destra
+    </p> --}}
+
+    <form id="test-form" action="{{route('bands.store')}}" method="POST">
+        @csrf
+        <div class="col-12 col-md-3 d-inline-block m-3 musicians-list-card">
+
+            <div class="card py-2">
+
+                {{-- MANUAL SELECT MUSICIANS (CREATE BAND) COMPONENT --}}
+                <livewire:manual-band-session-list live  :musicians="$allMusicians" />
+
+            </div>
+
+            @php
+                $counter = 6;
+                $counter = $counter - count($pickedInstruments);
+            @endphp
+        </div>
+    </form>
+
+
+
+    <livewire:send-manual-band-form wire:model="$isDisabled" live />
+
+</aside>
+@endsection
+
 
 @section('footer-scripts')
     @include('scripts.custom-select')
