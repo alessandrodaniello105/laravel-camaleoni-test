@@ -80,7 +80,7 @@
                             <label
                             class="btn btn-secondary w-75 position-relative "
                             for="`{{$instrument->name}}`-btn">
-                                <p>{{$instrument->name}}</p>
+                                <h3>{{$instrument->name}}</h3>
                                 <img class="position-absolute" src="/assets/instruments-png/{{$instrument->icon}}" alt="">
                             </label>
 
