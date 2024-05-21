@@ -106,7 +106,10 @@
 
         <main class="">
             @yield('content')
+            @yield('sidebar')
         </main>
+
+
     </div>
 
     @yield('footer-scripts')
