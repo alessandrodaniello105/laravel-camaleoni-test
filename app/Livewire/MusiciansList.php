@@ -11,6 +11,7 @@ use Livewire\Attributes\On;
 class MusiciansList extends Component
 {
     public Instrument $instrument;
+
     public $musicians;
     public $selectedMusicians;
 
@@ -21,9 +22,13 @@ class MusiciansList extends Component
 
     public function mount() {
         $this->instruments = Instrument::with('musician')->get();
+
         session()->put('testBin', 'eccomi qui, sono testBin');
-        $this->musicians = Musician::class;
+
+        $this->musicians = Musician::with('instrument')->where('instrument_id', $this->instrument->id)->get();
+
         $this->selectedMusicians = Cache::get('selected_musicians', []);
+
         $this->isFull = $this->checkIsFull();
 
 
@@ -55,7 +60,7 @@ class MusiciansList extends Component
     public function selectMusician($musicianId) {
 
         $this->dispatch('musician-added', $musicianId);
-        $this->dispatchSelf('update-list');
+        $this->dispatch('update-list')->self();
 
     }
 
