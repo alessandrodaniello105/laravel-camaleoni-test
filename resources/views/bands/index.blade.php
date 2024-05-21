@@ -27,7 +27,7 @@
             @foreach ($band->musicians as $musician)
             <li>
                 <span>
-                    {{$musician->name}} {{$musician->surname}} - {{$musician->instrument->name}}
+                    {{$musician->full_name}} - {{$musician->instrument->name}}
                 </span>
             </li>
             @endforeach
