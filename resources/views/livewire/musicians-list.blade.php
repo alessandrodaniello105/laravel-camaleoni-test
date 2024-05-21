@@ -1,6 +1,6 @@
-<div class="col-12 col-md-3 d-inline-block m-3 musicians-list-card">
+<div class="col-10 col-md-3 d-inline-block m-3 musicians-list-card">
 
-    <div class="card py-2">
+    <div class="card py-2 musicians-list-element">
         <div class="row title-row text-center">
             {{-- INSTRUMENT CARD TITLE --}}
             <h4>{{$instrument->name}}</h4>
@@ -67,7 +67,7 @@
               size="5">
                 {{-- <option selected>Open this select menu</option> --}}
 
-                    @foreach ($instrument->musician as $musician)
+                    @foreach ($musicians as $musician)
 
                         {{-- @php
                             $musician = $musicians::find($musician->id);
@@ -92,7 +92,7 @@
         {{-- //MUSICIANS SELECT --}}
 
     </div>
-{{($isFull)? 'isFull': 'isNotFull'}}
+{{-- {{($isFull)? 'isFull': 'isNotFull'}} --}}
 </div>
 
 @script
