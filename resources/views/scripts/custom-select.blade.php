@@ -9,6 +9,18 @@
     const instrumentsSelects = document.querySelectorAll('.form-select');
     console.log(deselectButtons);
 
+    let manualBandForm = document.getElementById('test-form');
+
+    let manualBandSelect = document.getElementById('manual-band-select');
+
+    let classList = addButtons[0].classList;
+
+    const isMultipleRandomCheckbox = document.getElementById('isMultipleRandom');
+
+    const howManyMusicians = document.getElementById('how-many-musicians');
+
+    const howManyRandomBandsInput = document.getElementById('how-many-random-bands');
+
     [...deselectButtons].forEach((button,indexBtn) => {
         button.addEventListener('click', function() {
 
@@ -22,11 +34,21 @@
         })
     })
 
-    let manualBandForm = document.getElementById('test-form');
+    let isDefault = true;
 
-    let manualBandSelect = document.getElementById('manual-band-select');
+    isMultipleRandomCheckbox.addEventListener('click', function() {
+        if (isDefault) {
+            howManyRandomBandsInput.disabled = false;
+            howManyMusicians.disabled = true;
+            isDefault = false;
+        } else {
+            howManyRandomBandsInput.disabled = true;
+            howManyMusicians.disabled = false;
+            isDefault = true;
+        }
 
-    let classList = addButtons[0].classList;
+    })
+
 
     for (className of classList) {
         if (className === 'disabled') {
