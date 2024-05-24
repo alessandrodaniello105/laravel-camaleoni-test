@@ -22,6 +22,7 @@
     </div>
     @endif
 
+    {{session()->get('failure')}}
     <div class="container-fluid">
         {{-- <div class="row">
             <livewire:manual-band-session-list />
@@ -42,7 +43,7 @@
 
 
             {{-- TODO: continue manual band into modal --}}
-            <!-- MODAL -->
+            <!-- MANUAL BAND MODAL -->
             <div class="modal fade" id="openManualBandModal" tabindex="-1" aria-labelledby="manualBandModalLabel" aria-hidden="true">
 
                 <div class="modal-dialog">
@@ -73,7 +74,7 @@
 
                 </div>
             </div>
-            <!-- //MODAL -->
+            <!-- //MANUAL BAND MODAL -->
 
 
 
@@ -121,7 +122,7 @@
         {{-- // RANDOMIZER MODAL OPEN BUTTON --}}
 
         {{-- TODO: continue randomizerr into modal --}}
-        <!-- MODAL -->
+        <!-- RANDOMIZER MODAL -->
         <div class="modal fade" id="openRandomizerModal" tabindex="-1" aria-labelledby="randomizerModalLabel" aria-hidden="true">
 
             <div class="modal-dialog">
@@ -149,7 +150,9 @@
                                 <input type="text" class="form-control" name="bandName" id="band-name" placeholder="What's the band name?" aria-label="What's the band name?" aria-describedby="band-name-label">
                             </div>
                             {{-- //NEW BAND NAME --}}
+
                             <hr>
+
                             {{-- HOW MANY MUSICIANS IN NEW BAND --}}
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="how-many-musicians-label">How Many Musicians?</span>
@@ -166,9 +169,42 @@
                             </div>
                             {{-- //HOW MANY MUSICIANS IN NEW BAND --}}
 
+                            <span class="d-block mb-2">or</span>
 
+                            {{-- HOW MANY RANDOMIZED BANDS --}}
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="how-many-random-bands-label">How Many Randomized Bands?</span>
+                                <input
+                                  type="number"
+                                  min="2"
+                                  max="10"
+                                  class="form-control"
+                                  name="howManyRandomBands"
+                                  id="how-many-random-bands"
+                                  placeholder="How Many Randomized Bands?"
+                                  aria-label="How Many Randomized Bands?"
+                                  aria-describedby="how-many-random-bands-label"
+                                  disabled>
+                            </div>
+                            {{-- //HOW MANY RANDOMIZED BANDS --}}
 
-                            <livewire:send-manual-band-form formName="randomizer-form" wire:model="$isDisabled" live />
+                            {{-- MULTIPLE RANDOMIZED BANDS FLAG --}}
+                            <div class="form-check text-start ">
+
+                                <input
+                                  class="form-check-input"
+                                  type="checkbox"
+                                  name="isMultipleRandom"
+                                  id="isMultipleRandom">
+
+                                <label class="form-check-label" for="isMultipleRandom">
+                                  Do you want to create multiple random bands?
+                                </label>
+
+                            </div>
+                            {{-- //MULTIPLE RANDOMIZED BANDS FLAG --}}
+
+                            <livewire:send-manual-band-form formName="randomizer-form" wire:model="$isDisabled" class="p-5" live />
 
                         </form>
                     </div>
@@ -185,7 +221,7 @@
 
             </div>
         </div>
-        <!-- //MODAL -->
+        <!-- //RANDOMIZER MODAL -->
 
     </div>
 
