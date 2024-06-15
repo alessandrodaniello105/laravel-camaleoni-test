@@ -34,11 +34,11 @@
         {{-- //INSTRUMENT ICON --}}
 
         {{-- BUTTONS COL --}}
-        <div class="col-4">
+        <div class="col">
             <p>
                 actions:
             </p>
-            <div class="buttons-container d-flex justify-content-start gap-3 p-2">
+            <div class="buttons-container d-flex justify-content-center gap-3 p-2">
 
                 {{-- DESELECT SELECTED MUSICIAN --}}
                 <div
@@ -73,7 +73,6 @@
 
 
     <div class="col px-2">
-
         {{-- <form id="form-manual-band" wire:submit="save"  method="POST">
             @csrf --}}
 
