@@ -7,23 +7,18 @@
 
     <h2>Crea una band-session</h2>
 
-    @if (!empty($_SESSION['exceptionMessage']))
-
-    <div class="alert alert-warning" role="alert">
-        {{$_SESSION['exceptionMessage']}}
-    </div>
-
-    @endif
+    @include('errors.index')
 
     {{-- TODO: LET THIS WORK! see BandController.store --}}
-    @if (!empty($failure))
+    @if (!empty($_SESSION['failure']))
     <div class="alert alert-warning" role="alert">
-        {{$failure}}
+        {{$failure}} {{$_SESSION['failure']}}
     </div>
     @endif
 
-    {{session()->get('failure')}}
-    <div class="container-fluid">
+    <div class="container-fluid d-flex ">
+
+
         {{-- <div class="row">
             <livewire:manual-band-session-list />
 
@@ -90,16 +85,15 @@
             {{-- //LEFT COLUMN --}}
 
 
-            {{-- RIGHT COLUMN --}}
 
-            {{-- //RIGHT COLUMN --}}
         </div>
+
 
     </div>
 
-
 </div>
 {{-- //MUSICIANS SELECTORS --}}
+
 
 
 
@@ -107,14 +101,15 @@
 @endsection
 
 @section('sidebar')
+{{-- RIGHT COLUMN --}}
 
+{{-- <p>
+    seconda colonna a destra
+</p> --}}
+<div class="aside-container col col-3 align-self-center  .d-flex .flex-column">
 
-
-<aside class=".col-4  text-center align-self-center manual-band-list-container">
-    {{-- <p>
-        seconda colonna a destra
-    </p> --}}
     <div class="mx-3">
+
         {{-- RANDOMIZER MODAL OPEN BUTTON --}}
         <button class="btn btn-outline-primary open-modal" id="randomizer-open-button" data-bs-toggle="modal" data-bs-target="#openRandomizerModal">
             OPEN RANDOMIZER
@@ -157,15 +152,15 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="how-many-musicians-label">How Many Musicians?</span>
                                 <input
-                                  type="number"
-                                  min="2"
-                                  max="6"
-                                  class="form-control"
-                                  name="howManyMusicians"
-                                  id="how-many-musicians"
-                                  placeholder="How Many Musicians?"
-                                  aria-label="How Many Musicians?"
-                                  aria-describedby="how-many-musicians-label">
+                                    type="number"
+                                    min="2"
+                                    max="6"
+                                    class="form-control"
+                                    name="howManyMusicians"
+                                    id="how-many-musicians"
+                                    placeholder="How Many Musicians?"
+                                    aria-label="How Many Musicians?"
+                                    aria-describedby="how-many-musicians-label">
                             </div>
                             {{-- //HOW MANY MUSICIANS IN NEW BAND --}}
 
@@ -175,16 +170,16 @@
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="how-many-random-bands-label">How Many Randomized Bands?</span>
                                 <input
-                                  type="number"
-                                  min="2"
-                                  max="10"
-                                  class="form-control"
-                                  name="howManyRandomBands"
-                                  id="how-many-random-bands"
-                                  placeholder="How Many Randomized Bands?"
-                                  aria-label="How Many Randomized Bands?"
-                                  aria-describedby="how-many-random-bands-label"
-                                  disabled>
+                                    type="number"
+                                    min="2"
+                                    max="10"
+                                    class="form-control"
+                                    name="howManyRandomBands"
+                                    id="how-many-random-bands"
+                                    placeholder="How Many Randomized Bands?"
+                                    aria-label="How Many Randomized Bands?"
+                                    aria-describedby="how-many-random-bands-label"
+                                    disabled>
                             </div>
                             {{-- //HOW MANY RANDOMIZED BANDS --}}
 
@@ -192,13 +187,13 @@
                             <div class="form-check text-start ">
 
                                 <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  name="isMultipleRandom"
-                                  id="isMultipleRandom">
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="isMultipleRandom"
+                                    id="isMultipleRandom">
 
                                 <label class="form-check-label" for="isMultipleRandom">
-                                  Do you want to create multiple random bands?
+                                    Do you want to create multiple random bands?
                                 </label>
 
                             </div>
@@ -226,9 +221,10 @@
     </div>
 
     <div class="d-none d-md-inline-block">
+
         <form id="test-form" action="{{route('bands.store')}}" method="POST">
             @csrf
-            <div class="col-12 col-md-3 d-inline-block m-3 musicians-list-card">
+            <div class="col-12 col-md-4 d-inline-block musicians-list-card">
 
                 <div class="card py-2">
 
@@ -244,15 +240,15 @@
             </div>
         </form>
 
-
-
         <livewire:send-manual-band-form formName="test-form" wire:model="$isDisabled" live />
 
     </div>
+</div>
 
-</aside>
+
+
+{{-- //RIGHT COLUMN --}}
 @endsection
-
 
 @section('footer-scripts')
     @include('scripts.custom-select')
