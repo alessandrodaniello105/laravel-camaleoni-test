@@ -74,60 +74,93 @@ class BandController extends Controller
     {
         $form_data_response = $request->all();
 
+        @dd(Helper::isThereMinOneMusician());
+        $drummers = Helper::isThereMinOneDrummer();
+
+        $request->validate([
+            'musiciansIds' => 'nullable|string',
+            'bandName' => 'nullable|string',
+            'howManyMusicians' => 'nullable|integer|min:2|max:6',
+            'isMultipleRandom' => 'nullable|string',
+        ]);
+
+        if(!$drummers) {
+
+            // @dump('flashed msg');
+            return back()->with('failure', 'No drummers available');
+        }
         // if request doesn't come from Randomizer form or doens't have musiciansIds
         // redirect back in creation band page
-        if (!$form_data_response['isRandomized'] && !$form_data_response['musiciansIds'] ) {
+        else if (!isset($form_data_response['isRandomized']) && empty($form_data_response['musiciansIds'])) { // check 'empty' works
             // TODO: make 'failure' message visible in blade
-            return redirect()->route('bands.create')->with('failure', 'nessun musicista estratto');
+            @dump('flashed failure state');
+            return back()->with('failure', 'You had some problems with musicians or randomized form');
         } else {
 
+            @dd('it continues here');
             $faker = Faker::create();
 
-            $newBand = Band::create();
+            $howManyBands = ($form_data_response['isMultipleRandom']) ?? 1;
 
-            // if a name is received, newBand gets that name
-            if (isset($form_data_response['bandName'])) $newBand->name = $form_data_response['bandName'];
-            // otherwise it gets "nome d'ufficio"
-            else $newBand->name = $faker->words(4, true);
+            // @dd(Helper::checkInstrumentsVtwo());
 
-            // if request comes from randomizer-form, we use randomizer() in Helper
-            if ($form_data_response['isRandomized'] === "on") {
-                $howManyMusicians = $form_data_response['howManyMusicians'] ?? rand(2, 6);
-                try {
-                    for($i = 1; $i <= $howManyMusicians; $i++) {
-                        Helper::randomizer($newBand->id);
+            // TODO: manage multiple bands generation
+
+                $newBand = Band::create();
+
+                // if a name is received, newBand gets that name,
+                // otherwise it gets "nome d'ufficio"
+                $newBand->name = ($form_data_response['bandName']) ?? $faker->words(3, true);
+
+                // if request comes from the manual method
+                if (!isset($form_data_response['isRandomized'])) {
+
+
+                    $musiciansIdsArray = explode(',', $form_data_response['musiciansIds']);
+
+                    // we retrieve musicians' ID from the form
+                    foreach($musiciansIdsArray as $musicianId) {
+
+
+                        $musician = Musician::where('id', $musicianId)->first();
+                        // @dump($musician);
+
+                        $musician->has_played = 1;
+                        $musician->update(['has_played']);
+                        $newBand->musicians()->attach($musician);
+
                     }
-                } catch (Exception $e) {
-                    $exceptionMessage = $e->getMessage();
-                    $_SESSION['exceptionMessage'] = $exceptionMessage;
+
+                    $newBand->save();
+                    // @dump($newBand->musicians());
+                    Cache::put('selected_musicians', []);
+                    Cache::put('picked_instruments', []);
+
+                    return redirect()->route('bands.show', $newBand);
+
+                } else {
+
+                    // otherwise we use randomizer-form, we use randomizer() in Helper
+                    for ($numberBand = 0; $numberBand < $howManyBands; $numberBand++) {
+                        $howManyMusicians = $form_data_response['howManyMusicians'] ?? rand(2, 6);
+
+                        try {
+                            for($i = 1; $i <= $howManyMusicians; $i++) {
+                                Helper::randomizer($newBand->id);
+                                $newBand->save();
+
+                            }
+                        } catch (Exception $e) {
+                            $exceptionMessage = $e->getMessage();
+                            $_SESSION['exceptionMessage'] = $exceptionMessage;
+                            $newBand->delete();
+                            return redirect()->route('bands.create');
+
+                        }
+
+                    }
+                    return redirect()->route('bands.index');
                 }
-                $newBand->save();
-                return redirect()->route('bands.show', $newBand);
-
-            } else {
-                // otherwise we use the manual method
-
-                $musiciansIdsArray = explode(',', $form_data_response['musiciansIds']);
-
-                // we retrieve musicians' ID from the form
-                foreach($musiciansIdsArray as $musicianId) {
-
-
-                    $musician = Musician::where('id', $musicianId)->first();
-                    // @dump($musician);
-
-                    $musician->has_played = 1;
-                    $musician->update(['has_played']);
-                    $newBand->musicians()->attach($musician);
-
-                }
-
-                $newBand->save();
-                // @dump($newBand->musicians());
-                Cache::put('selected_musicians', []);
-                Cache::put('picked_instruments', []);
-                return redirect()->route('bands.show', $newBand);
-            }
 
 
         }
