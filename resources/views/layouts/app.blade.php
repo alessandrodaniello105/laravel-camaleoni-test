@@ -104,11 +104,20 @@
             </div>
         </nav>
 
-        <main class="">
-            @yield('content')
-            @yield('sidebar')
-        </main>
+        <div class="container-ctm">
+            <div class="container-fluid">
+                <div class="row justify-content-center flex-nowrap">
+                    <main class="col col-9 ">
+                        @yield('content')
+                    </main>
 
+                    @yield('sidebar')
+
+                    {{-- <div class="aside-container col align-self-center  .d-flex .flex-column"> --}}
+                    {{-- </div> --}}
+                </div>
+            </div>
+        </div>
 
     </div>
 
