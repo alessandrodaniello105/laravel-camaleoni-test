@@ -6,6 +6,7 @@
 @endphp
 
 {{-- @dump($results) --}}
+{{$errorMsg ?? ''}}
 
 @if (!empty($_SESSION['exceptionMessage']))
 
