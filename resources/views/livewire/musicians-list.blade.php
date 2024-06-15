@@ -1,4 +1,4 @@
-<div class="col-10 col-md-3 d-inline-block m-3 musicians-list-card">
+<div class="col col-10 col-md-4 d-inline-block m-1 musicians-list-card">
 
     <div class="card py-2 musicians-list-element">
         <div class="row title-row text-center">
@@ -99,15 +99,18 @@
 
     let musiciansList         = document.getElementById('{{strtolower($instrument->name)}}-select');
 
-    // let musicianAddButton    = document.getElementById('add-musician-{{$instrument->name}}');
+    // let musicianAddButton     = document.getElementById('add-musician-{{$instrument->name}}');
 
-    let musicianDeletebutton = document.getElementById('manual-band-delete-button');
+    let musicianDeletebutton  = document.getElementById('manual-band-delete-button');
 
-    let musicianAddButton = document.getElementById('new-add-{{$instrument->name}}');
+    let musicianAddButton     = document.getElementById('new-add-{{$instrument->name}}');
 
     musicianAddButton.addEventListener('click', function() {
+
         console.log(musiciansList)
+
         if(musiciansList.selectedOptions.length > 0) {
+
             let musicianId = musiciansList.selectedOptions[0].value;
 
             $wire.dispatch('musician-added', [musicianId]);
