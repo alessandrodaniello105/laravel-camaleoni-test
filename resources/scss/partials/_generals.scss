@@ -23,87 +23,116 @@ label[myref="form-label"] {
     left: 10px;
 }
 
+body {
+    height: 100%;
+    width: 100%;
+}
 nav {
     z-index: 100;
 }
-
 main {
+    position: relative;
+    display: inline-block;
     height: calc(100vh - 80px);
     overflow-y: auto;
+    min-width: 300px;
+    // width: calc(100vw - 310px);
+    // display: flex;
+}
+
+.aside-container {
+
     position: relative;
-    display: flex;
-}
-
-aside {
+    width: fit-content;
+    // top: -100px;
+    // right: 0;
+    // transform: translateY(-50%);
     display: inline-block;
-    width: 300px;
+    // flex-direction: column;
+    // justify-content: center;
+    text-align: center;
+    // max-width: 300px;
+    // margin: auto;
 }
 
-.container-ctm {
-    // width: calc(90% - 300px);
-    height: 100%;
-    overflow-y: auto;
-    .container-fluid {
+.musicians-selectors {
 
-        .row {
-            height: 100%;
+    width: fit-content;
+    .container-ctm {
+        // display: inline-block;
+        position: relative;
+        // left: -150px;
+        // width: calc(100% - 301px);
+        width: 100%;
+        min-width: 314px;
+        // max-width: 1450px;
+        height: 100%;
+        margin: auto;
 
-            .open-modal-button-container {
-                z-index: 99;
-                position: relative;
+        .container-fluid {
 
-                .open-modal {
-                    bottom: 10px;
-                    right: 10px;
-                    box-shadow: 0px 3px 8px 1px #676767bb;
-                    position: fixed;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 0;
-                    width: 50px;
-                    height: 50px;
-                    font-size: 1.5rem;
-                    color: #f1f1f1;
-                    // background-color: #004f07;
-                    background: rgb(2,0,36);
-                    background: linear-gradient(326deg, rgba(2,0,36,1) 0%, rgba(9,121,34,1) 50%, rgba(0,212,255,1) 100%);
-                    border-radius: 50%;
+            .row {
+                height: 100%;
+                // flex-grow: 1;
+                .open-modal-button-container {
+                    z-index: 99;
+                    position: relative;
 
-                    &::before {
-                        content: '\00002B';
+                    .open-modal {
+                        bottom: 10px;
+                        right: 10px;
+                        box-shadow: 0px 3px 8px 1px #676767bb;
+                        position: fixed;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 0;
+                        width: 50px;
+                        height: 50px;
+                        font-size: 1.5rem;
+                        color: #f1f1f1;
+                        // background-color: #004f07;
+                        background: rgb(2,0,36);
+                        background: linear-gradient(326deg, rgba(2,0,36,1) 0%, rgba(9,121,34,1) 50%, rgba(0,212,255,1) 100%);
+                        border-radius: 50%;
+
+                        &::before {
+                            content: '\00002B';
+                            position: absolute;
+                            top: 5px;
+                        }
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+
+                .musicians-list-container {
+                    position: relative;
+                    max-width: 1100px;
+
+                    .no-musician-alert { //this is not used
                         position: absolute;
-                        top: 5px;
+                        height: 20px;
                     }
 
-                    &:hover {
-                        cursor: pointer;
-                    }
+
+
                 }
             }
 
-            .musicians-list-container {
-                position: relative;
 
-                .no-musician-alert { //this is not used
-                    position: absolute;
-                    height: 20px;
-                }
-
-
-
-            }
         }
 
 
+
     }
-
-
-
 }
 
 .musicians-list-card {
     min-width: 250px;
+    max-width: 300px;
     .musicians-list-element {
         box-shadow: 0 0 10px 1px #d6d6d68a;
     }
