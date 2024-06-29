@@ -30,6 +30,11 @@ body {
 nav {
     z-index: 100;
 }
+
+.main-container {
+    max-width: 95vw;
+}
+
 main {
     position: relative;
     display: inline-block;
@@ -55,9 +60,66 @@ main {
     // margin: auto;
 }
 
-.musicians-selectors {
+.musician-selectors {
 
-    width: fit-content;
+    // width: fit-content;
+
+
+    .container-fluid {
+
+        .row {
+            height: 100%;
+            // flex-grow: 1;
+            .open-modal-button-container {
+                z-index: 99;
+                position: relative;
+
+                .open-modal {
+                    bottom: 10px;
+                    right: 10px;
+                    box-shadow: 0px 3px 8px 1px #676767bb;
+                    position: fixed;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0;
+                    width: 50px;
+                    height: 50px;
+                    font-size: 1.5rem;
+                    color: #f1f1f1;
+                    // background-color: #004f07;
+                    background: rgb(2,0,36);
+                    background: linear-gradient(326deg, rgba(2,0,36,1) 0%, rgba(9,121,34,1) 50%, rgba(0,212,255,1) 100%);
+                    border-radius: 50%;
+
+                    &::before {
+                        content: '\00002B';
+                        position: absolute;
+                        top: 5px;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .musicians-list-container {
+                position: relative;
+                max-width: 980px;
+
+                .no-musician-alert { //this is not used
+                    position: absolute;
+                    height: 20px;
+                }
+
+
+
+            }
+        }
+
+
+    }
     .container-ctm {
         // display: inline-block;
         position: relative;
@@ -69,61 +131,7 @@ main {
         height: 100%;
         margin: auto;
 
-        .container-fluid {
 
-            .row {
-                height: 100%;
-                // flex-grow: 1;
-                .open-modal-button-container {
-                    z-index: 99;
-                    position: relative;
-
-                    .open-modal {
-                        bottom: 10px;
-                        right: 10px;
-                        box-shadow: 0px 3px 8px 1px #676767bb;
-                        position: fixed;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        padding: 0;
-                        width: 50px;
-                        height: 50px;
-                        font-size: 1.5rem;
-                        color: #f1f1f1;
-                        // background-color: #004f07;
-                        background: rgb(2,0,36);
-                        background: linear-gradient(326deg, rgba(2,0,36,1) 0%, rgba(9,121,34,1) 50%, rgba(0,212,255,1) 100%);
-                        border-radius: 50%;
-
-                        &::before {
-                            content: '\00002B';
-                            position: absolute;
-                            top: 5px;
-                        }
-
-                        &:hover {
-                            cursor: pointer;
-                        }
-                    }
-                }
-
-                .musicians-list-container {
-                    position: relative;
-                    max-width: 1100px;
-
-                    .no-musician-alert { //this is not used
-                        position: absolute;
-                        height: 20px;
-                    }
-
-
-
-                }
-            }
-
-
-        }
 
 
 
