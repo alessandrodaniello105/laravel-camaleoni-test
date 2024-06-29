@@ -107,7 +107,7 @@ class MusicianController extends Controller
         // @dd($musician->id);
         $getMusician = Musician::where('id', $musician)->first();
 
-        @dump($getMusician);
+        // @dump($getMusician);
         return view('musicians.edit', compact('getMusician', 'instruments'));
     }
 
