@@ -7,114 +7,15 @@
 
     <h2>Crea una band-session</h2>
 
-    @include('errors.index')
 
-    {{-- TODO: LET THIS WORK! see BandController.store --}}
-    @if (!empty($_SESSION['failure']))
-    <div class="alert alert-warning" role="alert">
-        {{$failure}} {{$_SESSION['failure']}}
-    </div>
-    @endif
-
-    <div class="container-fluid d-flex ">
-
-
-        {{-- <div class="row">
-            <livewire:manual-band-session-list />
-
-        </div> --}}
-        <div class="row justify-content-center ">
-
-            {{-- MANUAL BAND MODAL OPEN BUTTON --}}
-            <div class="open-modal-button-container d-md-none ">
-                <div class="open-modal" id="open-manual-band-modal" data-bs-toggle="modal" data-bs-target="#openManualBandModal"></div>
-            </div>
-            {{-- // MANUAL BAND MODAL OPEN BUTTON --}}
-
-            <!-- Button trigger modal -->
-            {{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Launch demo modal
-            </button> --}}
-
-
-            {{-- TODO: continue manual band into modal --}}
-            <!-- MANUAL BAND MODAL -->
-            <div class="modal fade" id="openManualBandModal" tabindex="-1" aria-labelledby="manualBandModalLabel" aria-hidden="true">
-
-                <div class="modal-dialog">
-
-                    <div class="modal-content">
-
-                        <div class="modal-header">
-
-                            <h1 class="modal-title fs-5" id="manualBandModalLabel">Modal title</h1>
-
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                        </div>
-
-                        <div class="modal-body">
-                        ...
-                        </div>
-
-                        <div class="modal-footer">
-
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
-                            <button type="button" class="btn btn-primary">Save changes</button>
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-            <!-- //MANUAL BAND MODAL -->
-
-
-
-            {{-- LEFT COLUMN --}}
-            <div class="col .col-md-8 d-flex flex-wrap justify-content-center musicians-list-container">
-
-                @foreach ($instruments as $instrument)
-
-                <livewire:musicians-list live :key="$instrument->id" :instrument='$instrument' />
-                @endforeach
-
-            </div>
-            {{-- //LEFT COLUMN --}}
-
-
-
-        </div>
-
-
-    </div>
-
-</div>
-{{-- //MUSICIANS SELECTORS --}}
-
-
-
-
-@livewireScripts
-@endsection
-
-@section('sidebar')
-{{-- RIGHT COLUMN --}}
-
-{{-- <p>
-    seconda colonna a destra
-</p> --}}
-<div class="aside-container col col-3 align-self-center  .d-flex .flex-column">
-
+    {{-- RANDOMIZER BUTTON & MODAL --}}
     <div class="mx-3">
 
         {{-- RANDOMIZER MODAL OPEN BUTTON --}}
         <button class="btn btn-outline-primary open-modal" id="randomizer-open-button" data-bs-toggle="modal" data-bs-target="#openRandomizerModal">
             OPEN RANDOMIZER
         </button>
-        {{-- // RANDOMIZER MODAL OPEN BUTTON --}}
+        {{-- /RANDOMIZER MODAL OPEN BUTTON --}}
 
         {{-- TODO: continue randomizerr into modal --}}
         <!-- RANDOMIZER MODAL -->
@@ -216,9 +117,108 @@
 
             </div>
         </div>
-        <!-- //RANDOMIZER MODAL -->
+        <!-- /RANDOMIZER MODAL -->
 
     </div>
+    {{-- /RANDOMIZER BUTTON & MODAL --}}
+
+
+    @include('errors.index')
+
+    {{-- TODO: LET THIS WORK! see BandController.store --}}
+    @if (!empty($_SESSION['failure']))
+    <div class="alert alert-warning" role="alert">
+        {{$failure}} {{$_SESSION['failure']}}
+    </div>
+    @endif
+
+    <div class="container-fluid d-flex ">
+
+
+        {{-- <div class="row">
+            <livewire:manual-band-session-list />
+
+        </div> --}}
+        <div class="row justify-content-center ">
+
+            {{-- MANUAL BAND MODAL OPEN BUTTON --}}
+            <div class="open-modal-button-container d-md-none ">
+                <div class="open-modal" id="open-manual-band-modal" data-bs-toggle="modal" data-bs-target="#openManualBandModal"></div>
+            </div>
+            {{-- /MANUAL BAND MODAL OPEN BUTTON --}}
+
+            {{-- TODO: continue manual band into modal --}}
+            <!-- MANUAL BAND MODAL -->
+            <div class="modal fade" id="openManualBandModal" tabindex="-1" aria-labelledby="manualBandModalLabel" aria-hidden="true">
+
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h1 class="modal-title fs-5" id="manualBandModalLabel">Modal title</h1>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                        </div>
+
+                        <div class="modal-body">
+                        ...
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                            <button type="button" class="btn btn-primary">Save changes</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <!-- /MANUAL BAND MODAL -->
+
+
+
+            {{-- LEFT COLUMN --}}
+            <div class="col .col-md-8 d-flex flex-wrap justify-content-center musicians-list-container">
+
+                @foreach ($instruments as $instrument)
+
+                <livewire:musicians-list live :key="$instrument->id" :instrument='$instrument' />
+                @endforeach
+
+            </div>
+            {{-- /LEFT COLUMN --}}
+
+
+
+        </div>
+
+
+    </div>
+
+</div>
+{{-- /MUSICIANS SELECTORS --}}
+
+
+
+
+@livewireScripts
+@endsection
+
+@section('sidebar')
+{{-- RIGHT COLUMN --}}
+
+{{-- <p>
+    seconda colonna a destra
+</p> --}}
+<div class="aside-container col col-3 align-self-center  .d-flex .flex-column">
+
+
 
     <div class="d-none d-md-inline-block">
 
