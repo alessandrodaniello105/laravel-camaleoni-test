@@ -104,7 +104,7 @@
             </div>
         </nav>
 
-        <div class="container-ctm">
+        <div class="container-ctm main-container">
             <div class="container-fluid">
                 <div class="row justify-content-center flex-nowrap">
                     <main class="col col-9 ">
