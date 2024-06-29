@@ -8,14 +8,13 @@ use App\Models\Band;
 use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-
 use Laravel\Prompts\alert;
 
 class Helper {
     public static function isThereMinOneDrummer(): bool {
         $drummers = Musician::with('instrument')
                     ->where('instrument_id', 1)
-                    ->whereBetween('created_at', [now()->subDay(), now()]) // now it clean bands at midnight
+                    ->whereBetween('created_at', [now()->subDay(), now()]) // it takes bands before midnight
                     ->where('is_picked', 0)
                     ->get();
 
@@ -26,49 +25,102 @@ class Helper {
 
     }
 
-    public static function isThereMinOneMusician() {
+    public static function availableInstruments() {
 
-        $instruments     = Instrument::all();
+        $instruments      = Instrument::all();
+        // $availableMusicians = Musician::where('has_played', 0)->pluck('instrument_id');
+        $availableInstrumentsString = Instrument::whereHas('musician', function($query) {
+            $query->where('has_played', 0)->where('is_picked', 0);
+        })->distinct()->pluck('name');
+
+        $availableInstruments = explode(',', $availableInstrumentsString);
+
         $instrumentsArray = strtolower($instruments->pluck('name'));
+
+
         //TODO: return instruments with no musician
 
-        return $instrumentsArray;
+        return $availableInstrumentsString;
     }
-    public static function randomizer($idBand) {
+    public static function randomizer($idBand, $instrumentsArray) {
         // Helper::checkInstrumentsVtwo();
         // we select the band we want to fill with musicians
         $selectedBand = Band::where('id', $idBand)->with('musicians')->first();
+
+        if (count($selectedBand->musicians) >= 6) {
+
+            throw new Exception('Non puoi aggiungere altri musicisti a questo gruppo');
+
+        }
 
         $hasDrums = $selectedBand->musicians->filter(function($el) {
             return $el->instrument_id ?? 0;
         });
 
-        if (!Helper::pickMusician(Instrument::where('name', 'Drums')->first())) {
-            throw new Exception('No Drummers available');
-        } else {
-            if (!$selectedBand->musicians->first()) {
-                $drums = Instrument::where('name', 'Drums')->first();
+        // if (!Helper::pickMusician(Instrument::where('name', 'Drums')->first())) {
+        //     throw new Exception('No Drummers available');
+        // } else {
+        //     // if (!$selectedBand->musicians->first()) {
+        //     // }
+        //         $drums = Instrument::where('name', 'Drums')->first()->name;
+        //         $musician = Helper::pickMusician($drums);
+        //         $musician->is_picked  = 1;
+        //         $musician->has_played = 0;
+
+        //         $musician->update(['is_picked', 'has_played']);
+
+        //         $selectedBand->musicians()->attach($musician);
+        //         array_splice($instrumentsArray, 0, 1);
+
+        //     $instrumentsNumber = count($instrumentsArray);
+
+        //     for ($i = 0; $i < $instrumentsNumber; $i++) {
+        //         // check and retrieve which instrument we need
+        //         $instrument = $instrumentsArray[$i];
+
+
+        //         // pick a musician for that/those instrument/instruments
+        //         $musician = Helper::pickMusician($instrument);
+        //         $musician->is_picked  = 1;
+        //         $musician->has_played = 0;
+        //         $musician->update(['is_picked', 'has_played']);
+
+        //         $selectedBand->musicians()->attach($musician);
+        //     }
+        //     // @dump($hasDrums);
+        // }
+
+
+
+            // if (!$selectedBand->musicians->first()) {
+            // }
+                $drums = Instrument::where('name', 'Drums')->first()->name;
                 $musician = Helper::pickMusician($drums);
                 $musician->is_picked  = 1;
-                $musician->has_played = 1; // change to 0
+                $musician->has_played = 0;
 
                 $musician->update(['is_picked', 'has_played']);
 
                 $selectedBand->musicians()->attach($musician);
-            } else {
+                array_splice($instrumentsArray, 0, 1);
+
+            $instrumentsNumber = count($instrumentsArray);
+
+            for ($i = 0; $i < $instrumentsNumber; $i++) {
                 // check and retrieve which instrument we need
-                $randomInstrument = Helper::randomInstrument($selectedBand);
+                $instrument = $instrumentsArray[$i];
+
 
                 // pick a musician for that/those instrument/instruments
-                $musician = Helper::pickMusician($randomInstrument);
+                $musician = Helper::pickMusician($instrument);
                 $musician->is_picked  = 1;
-                $musician->has_played = 1; // change to 0
+                $musician->has_played = 0;
                 $musician->update(['is_picked', 'has_played']);
 
                 $selectedBand->musicians()->attach($musician);
             }
-            @dump($hasDrums);
-        }
+            // @dump($hasDrums);
+
 
 
 
@@ -101,21 +153,21 @@ class Helper {
 
             throw new Exception('Non puoi aggiungere altri musicisti a questo gruppo');
 
-        } else {
-
-            // @dump(!$selectedBand->musicians->first());
-
-            // @dump($selectedBand);
-
-            // if 'selectedBand' has no musicians, return a drummer...
-
-            $instrumentsInBand = Helper::checkInstruments($selectedBand, $instrumentsInBand);
-
-            $randomInstrument = Instrument::all()->diff($instrumentsInBand)->random();
-
-            $instrumentsInBand[] = $randomInstrument;
-            return $randomInstrument;
         }
+
+        // @dump(!$selectedBand->musicians->first());
+
+        // @dump($selectedBand);
+
+        // if 'selectedBand' has no musicians, return a drummer...
+
+        $instrumentsInBand = Helper::checkInstruments($selectedBand, $instrumentsInBand);
+
+        $randomInstrument = Instrument::all()->diff($instrumentsInBand)->random();
+
+        $instrumentsInBand[] = $randomInstrument;
+        return $randomInstrument;
+
 
     }
 
@@ -129,9 +181,14 @@ class Helper {
     }
     private static function pickMusician($instrument) {
 
+        // $instrumentName = $instrument->first()->name;
+
+        // $instrumentName = $instrument->name;
+        // $instrumentCollection = Instrument::where('name', $instrumentName)->get();
+// @dd($instrument);
         $musician = Musician::with('instrument')
             ->inRandomOrder()
-            ->whereRelation('instrument', 'name', $instrument->name)
+            ->whereRelation('instrument', 'name', $instrument)
             ->where('has_played', 0)
             ->first();
 
